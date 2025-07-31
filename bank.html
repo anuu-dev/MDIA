@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MDIA Bank</title>
+  <link rel="icon" href="img/title img.jpg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+
+  <section class="page">
+    <h1> MDIA Treasury & Finance</h1>
+
+    <div class="bank-balance">
+      <h2>Current Balance</h2>
+      <p id="current-balance">₹0</p>
+    </div>
+
+    <h3 style="margin-top: 40px;"> Add Transaction</h3>
+    <form id="transaction-form" class="bank-form">
+      <input type="text" id="t-date" placeholder="Date (e.g., June 27, 2025)" required />
+      <select id="t-type" required>
+        <option value="">Select Type</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <input type="text" id="t-desc" placeholder="Description" required />
+      <input type="number" id="t-amount" placeholder="Amount" required />
+      <button type="submit">Add</button>
+    </form>
+
+    <h3 style="margin-top: 40px;"> Transaction History</h3>
+    <table class="bank-table" id="bank-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-body">
+      
+      </tbody>
+    </table>
+
+    <div class="bank-summary">
+      <p> Total Income: ₹<span id="total-income">0</span></p>
+      <p> Total Expenses: ₹<span id="total-expense">0</span></p>
+    </div>
+
+    <a href="index.html" class="back-button">← Back to Home</a>
+  </section>
+
+  <script>
+    const form = document.getElementById("transaction-form");
+    const body = document.getElementById("transaction-body");
+    const incomeDisplay = document.getElementById("total-income");
+    const expenseDisplay = document.getElementById("total-expense");
+    const balanceDisplay = document.getElementById("current-balance");
+
+    let income = 0;
+    let expense = 0;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const date = document.getElementById("t-date").value;
+      const type = document.getElementById("t-type").value;
+      const desc = document.getElementById("t-desc").value;
+      const amount = parseInt(document.getElementById("t-amount").value);
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${date}</td>
+        <td>${type.charAt(0).toUpperCase() + type.slice(1)}</td>
+        <td>${desc}</td>
+        <td style="color: ${type === 'income' ? '#00ff99' : '#ff4d4d'}">${type === 'income' ? '+' : '-'} ₹${amount}</td>
+      `;
+
+      body.appendChild(row);
+
+      if (type === "income") {
+        income += amount;
+      } else {
+        expense += amount;
+      }
+
+      incomeDisplay.textContent = income;
+      expenseDisplay.textContent = expense;
+      balanceDisplay.textContent = `₹${income - expense}`;
+
+      form.reset();
+    });
+  </script>
+<footer class="footer-blur">
+  Created by Muhammed Anas Pallappady · © 2025 MDIA
+  · For More Details Contact: 9895075286
+</footer>
+</body>
+</html>
